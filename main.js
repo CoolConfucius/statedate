@@ -11,23 +11,23 @@ $(document).ready(function() {
     "theme": "light",
     "dataProvider": {
       "map": "worldLow",
-      // "zoomLevel": 3.5,
-      // "zoomLongitude": 10,
-      // "zoomLatitude": 52,
+      "zoomLevel": 3.5,
+      "zoomLongitude": -96,
+      "zoomLatitude": 37,
       "areas": [ {
         "id": "US",
-        "color": "#67b7dc"
+        "color": "#00CC00"
       }
       ]
     }
-    // ,
+    ,
 
-    // "areasSettings": {
-    //   "rollOverOutlineColor": "#FFFFFF",
-    //   "rollOverColor": "#CC0000",
-    //   "alpha": 0.8,
-    //   "unlistedAreasAlpha": 0
-    // }
+    "areasSettings": {
+      "rollOverOutlineColor": "#FFFFFF",
+      "rollOverColor": "#009900",
+      "alpha": 0.8,
+      "unlistedAreasAlpha": 0
+    }
 
   } );
 });
