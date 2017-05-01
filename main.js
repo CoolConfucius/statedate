@@ -1,10 +1,35 @@
 $(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "exercise_data.csv",
-        dataType: "text",
-        success: function(data) {processData(data);}
-     });
+  $.ajax({
+    type: "GET",
+    url: "exercise_data.csv",
+    dataType: "text",
+    success: function(data) {processData(data);}
+  });
+
+  var map = AmCharts.makeChart( "chartdiv", {
+    "type": "map",
+    "theme": "light",
+    "dataProvider": {
+      "map": "worldLow",
+      // "zoomLevel": 3.5,
+      // "zoomLongitude": 10,
+      // "zoomLatitude": 52,
+      "areas": [ {
+        "id": "US",
+        "color": "#67b7dc"
+      }
+      ]
+    }
+    // ,
+
+    // "areasSettings": {
+    //   "rollOverOutlineColor": "#FFFFFF",
+    //   "rollOverColor": "#CC0000",
+    //   "alpha": 0.8,
+    //   "unlistedAreasAlpha": 0
+    // }
+
+  } );
 });
 
 function processData(allText) {
@@ -30,4 +55,4 @@ function processData(allText) {
 
 
     console.log(Papa.parse(allText));
-}
+  }
