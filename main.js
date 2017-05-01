@@ -1,3 +1,8 @@
+var csvarray; 
+var map; 
+map = makemap(); 
+console.log("map: ", map);
+
 $(document).ready(function() {
   $.ajax({
     type: "GET",
@@ -5,7 +10,27 @@ $(document).ready(function() {
     dataType: "text",
     success: function(data) {processData(data);}
   });
+});
 
+function processData(allText) {
+
+    console.log(Papa.parse(allText));
+    csvarray = Papa.parse(allText);
+    console.log(csvarray); 
+
+}
+ // console.log("map: ", map);
+  // function getSelectedStates() {
+  //   var selected = [];
+  //   for(var i = 0; i < map.dataProvider.areas.length; i++) {
+  //     if(map.dataProvider.areas[i].showAsSelected)
+  //       selected.push(map.dataProvider.areas[i].id);
+  //   }
+  //   return selected;
+  // }
+
+function makemap(){
+  console.log("start of make map function");
   var map = AmCharts.makeChart( "chartdiv", {
     "type": "map",
     "theme": "light",
@@ -162,8 +187,7 @@ $(document).ready(function() {
         id: "US-WY",
         value: 493782
       } ]
-    }
-    ,
+    },
 
     "areasSettings": {
       "autoZoom": true,
@@ -171,62 +195,51 @@ $(document).ready(function() {
       "rollOverColor": "#009900",
       "alpha": 0.8,
       "unlistedAreasAlpha": 0
-    }
-    ,
-    "listeners": [{
-      "event": "clickMapObject",
-      "method": function(e) {
-
-      // Ignore any click not on area
-      if (e.mapObject.objectType !== "MapArea")
-        return;
+    },
       
-      var area = e.mapObject;
-      
-      // Toggle showAsSelected
-      area.showAsSelected = !area.showAsSelected;
-      e.chart.returnInitialColor(area);
-      
-      // Update the list
-      document.getElementById("selected").innerHTML = JSON.stringify(getSelectedStates());
-    }
-  }]
+      "listeners": [
+    //   {
+    //     "event": "clickMapObject",
+    //     "method": function(e) {
 
-});
-
-
-  function getSelectedStates() {
-    var selected = [];
-    for(var i = 0; i < map.dataProvider.areas.length; i++) {
-      if(map.dataProvider.areas[i].showAsSelected)
-        selected.push(map.dataProvider.areas[i].id);
-    }
-    return selected;
-  }
-});
-
-function processData(allText) {
-    // console.log("allText: \n" + allText);
-    // var record_num = 5;  // or however many elements there are in each row
-    // var allTextLines = allText.split(/\r\n|\n/);
-    // console.log("allTextLines: \n" + allTextLines);
-    // var entries = allTextLines[0].split(',');
-    // console.log("entries: \n" + entries);
-    // var lines = [];
-
-    // var headings = entries.splice(0,record_num);
-    // while (entries.length>0) {
-    //     var tarr = [];
-    //     for (var j=0; j<record_num; j++) {
-    //         tarr.push(headings[j]+":"+entries.shift());
-    //     }
-    //     lines.push(tarr);
+    //     // Ignore any click not on area
+    //     if (e.mapObject.objectType !== "MapArea")
+    //       return;
+        
+    //     var area = e.mapObject;
+        
+    //     // Toggle showAsSelected
+    //     area.showAsSelected = !area.showAsSelected;
+    //     e.chart.returnInitialColor(area);
+        
+    //     // Update the list
+    //     document.getElementById("selected").innerHTML = JSON.stringify(getSelectedStates());
+    //   }
     // }
-    // console.log(lines);
+    // ,
+    {
+      "event": "init",
+      "method": function(e) {
+        preSelectStates( ["CA"]);
+      }
+    }
+    ]
+
+  }); // end of map object
+  console.log("end of make map function");
+  return map; 
+};
 
 
-    console.log(Papa.parse(allText));
+function preSelectStates(list) {
+  console.log("list in preSelectStates: ", list);
+  for(var i = 0; i < list.length; i++) {
+    console.log("map in preSelectStates: ", map);
+    var area = map.getObjectById("US-"+list[i]);
+    console.log("area: ", area);
+    area.showAsSelected = true;
+    map.returnInitialColor(area);
   }
-
+}
 
   
