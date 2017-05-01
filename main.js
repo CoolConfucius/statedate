@@ -11,14 +11,6 @@ $(document).ready(function() {
     "theme": "light",
     "dataProvider": {
       "map": "usaLow",
-      // "zoomLevel": 3.5,
-      // "zoomLongitude": -96,
-      // "zoomLatitude": 37,
-      // "areas": [ {
-      //   "id": "US",
-      //   "color": "#00CC00"
-      // }
-      // ]
       "areas": [ {
         id: "US-AL",
         value: 4447100
@@ -174,13 +166,43 @@ $(document).ready(function() {
     ,
 
     "areasSettings": {
+      "autoZoom": true,
       "rollOverOutlineColor": "#FFFFFF",
       "rollOverColor": "#009900",
       "alpha": 0.8,
       "unlistedAreasAlpha": 0
     }
+    ,
+    "listeners": [{
+      "event": "clickMapObject",
+      "method": function(e) {
 
-  } );
+      // Ignore any click not on area
+      if (e.mapObject.objectType !== "MapArea")
+        return;
+      
+      var area = e.mapObject;
+      
+      // Toggle showAsSelected
+      area.showAsSelected = !area.showAsSelected;
+      e.chart.returnInitialColor(area);
+      
+      // Update the list
+      document.getElementById("selected").innerHTML = JSON.stringify(getSelectedStates());
+    }
+  }]
+
+});
+
+
+  function getSelectedStates() {
+    var selected = [];
+    for(var i = 0; i < map.dataProvider.areas.length; i++) {
+      if(map.dataProvider.areas[i].showAsSelected)
+        selected.push(map.dataProvider.areas[i].id);
+    }
+    return selected;
+  }
 });
 
 function processData(allText) {
@@ -203,7 +225,8 @@ function processData(allText) {
     // console.log(lines);
 
 
-
-
     console.log(Papa.parse(allText));
   }
+
+
+  
