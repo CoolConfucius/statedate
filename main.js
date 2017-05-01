@@ -1,24 +1,67 @@
 var csvarray; 
 var map; 
+// csvarray = getarray(); 
 map = makemap(); 
+
 console.log("map: ", map);
 
-$(document).ready(function() {
-  $.ajax({
-    type: "GET",
-    url: "exercise_data.csv",
-    dataType: "text",
-    success: function(data) {processData(data);}
+
+function docready(){
+  var csvarray; 
+  $(document).ready(function() {
+    $.ajax({
+      type: "GET",
+      url: "exercise_data.csv",
+      dataType: "text",
+      success: function(data) {csvarray = processData(data);}
+    });
   });
-});
 
-function processData(allText) {
+  function processData(allText) {
 
-    console.log(Papa.parse(allText));
-    csvarray = Papa.parse(allText);
-    console.log(csvarray); 
-
+      console.log(Papa.parse(allText));
+      csvarray = Papa.parse(allText);
+      console.log(csvarray); 
+      return csvarray; 
+  }
+  console.log("csvarray: ", csvarray);
+  return csvarray; 
 }
+
+
+// function getarray(){
+//   var csvarray; 
+  // $(document).ready(function() {
+  //   $.ajax({
+  //     type: "GET",
+  //     url: "exercise_data.csv",
+  //     dataType: "text",
+  //     success: function(data) {processData(data);}
+  //   });
+  // });
+
+  // function processData(allText) {
+
+  //     console.log(Papa.parse(allText));
+  //     csvarray = Papa.parse(allText);
+  //     console.log(csvarray); 
+
+  // }
+//   return csvarray;   
+// }
+
+// function getarray(){
+//   $(document).ready(function() {
+//     $.ajax({
+//       type: "GET",
+//       url: "exercise_data.csv",
+//       dataType: "text",
+//       success: function(data) { return Papa.parse(data);}
+//     });
+//   });
+// }
+
+
  // console.log("map: ", map);
   // function getSelectedStates() {
   //   var selected = [];
@@ -30,6 +73,9 @@ function processData(allText) {
   // }
 
 function makemap(){
+  docready(); 
+  // var csvarray = getarray(); 
+  console.log("getarray: ", csvarray);
   console.log("start of make map function");
   var map = AmCharts.makeChart( "chartdiv", {
     "type": "map",
@@ -221,6 +267,7 @@ function makemap(){
       "event": "init",
       "method": function(e) {
         preSelectStates( ["CA"]);
+        // preSelectStates( csvarray);
       }
     }
     ]
@@ -232,6 +279,7 @@ function makemap(){
 
 
 function preSelectStates(list) {
+  console.log("parsed data: ", csvarray);
   console.log("list in preSelectStates: ", list);
   for(var i = 0; i < list.length; i++) {
     console.log("map in preSelectStates: ", map);
