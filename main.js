@@ -1,32 +1,34 @@
+$(document).ready(init); 
+
 var csvarray; 
 var map; 
-// csvarray = getarray(); 
-map = makemap(); 
 
-console.log("map: ", map);
-
-
-function docready(){
-  var csvarray; 
-  $(document).ready(function() {
-    $.ajax({
-      type: "GET",
-      url: "exercise_data.csv",
-      dataType: "text",
-      success: function(data) {csvarray = processData(data);}
-    });
+function init(){
+  $.ajax({
+    type: "GET",
+    url: "exercise_data.csv",
+    dataType: "text",
+    success: function(data) {
+    processData(data, makemap);
+    }
   });
+}
 
-  function processData(allText) {
+// csvarray = getarray(); 
+
+// console.log("map: ", map);
+
+
+  function processData(allText, next) {
 
       console.log(Papa.parse(allText));
       csvarray = Papa.parse(allText);
       console.log(csvarray); 
-      return csvarray; 
+      next(csvarray);
   }
-  console.log("csvarray: ", csvarray);
-  return csvarray; 
-}
+  // console.log("csvarray: ", csvarray);
+  
+
 
 
 // function getarray(){
@@ -72,12 +74,11 @@ function docready(){
   //   return selected;
   // }
 
-function makemap(){
-  docready(); 
+function makemap(csvarray){
   // var csvarray = getarray(); 
   console.log("getarray: ", csvarray);
   console.log("start of make map function");
-  var map = AmCharts.makeChart( "chartdiv", {
+  map = AmCharts.makeChart( "chartdiv", {
     "type": "map",
     "theme": "light",
     "dataProvider": {
@@ -274,7 +275,7 @@ function makemap(){
 
   }); // end of map object
   console.log("end of make map function");
-  return map; 
+  // return map; 
 };
 
 
