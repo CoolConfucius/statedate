@@ -1,29 +1,20 @@
 $(document).ready(init); 
 
 var map; 
-var selectedDate; 
 var $calendar; 
 var $go; 
 
 function init(){
   $calendar = $('#calendar');
   $go = $('#go');
-  $calendar.click(calendarClicked);
   $go.click(goClicked);
 
   makemap(); 
 }
 
-function calendarClicked(){
-  console.log("calendarClicked");
-  console.log(this.value);
-  console.log($calendar);
-  selectedDate = this.value
-}
 
 function goClicked(){
   console.log("goClicked");
-  console.log(selectedDate);
   console.log($calendar.val());
 }
 
