@@ -16,6 +16,9 @@ function init(){
 function goClicked(){
   console.log("goClicked");
   console.log($calendar.val());
+  var area = map.getObjectById('US-OR');
+  area.showAsSelected = true;
+  map.returnInitialColor(area);
 }
 
 // csvarray = getarray(); 
