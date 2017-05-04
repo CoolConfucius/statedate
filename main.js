@@ -1,9 +1,30 @@
 $(document).ready(init); 
 
 var map; 
+var selectedDate; 
+var $calendar; 
+var $go; 
 
 function init(){
+  $calendar = $('#calendar');
+  $go = $('#go');
+  $calendar.click(calendarClicked);
+  $go.click(goClicked);
+
   makemap(); 
+}
+
+function calendarClicked(){
+  console.log("calendarClicked");
+  console.log(this.value);
+  console.log($calendar);
+  selectedDate = this.value
+}
+
+function goClicked(){
+  console.log("goClicked");
+  console.log(selectedDate);
+  console.log($calendar.val());
 }
 
 // csvarray = getarray(); 
@@ -19,39 +40,6 @@ function init(){
   // console.log("csvarray: ", csvarray);
   
 
-
-
-// function getarray(){
-//   var csvarray; 
-  // $(document).ready(function() {
-  //   $.ajax({
-  //     type: "GET",
-  //     url: "exercise_data.csv",
-  //     dataType: "text",
-  //     success: function(data) {processData(data);}
-  //   });
-  // });
-
-  // function processData(allText) {
-
-  //     console.log(Papa.parse(allText));
-  //     csvarray = Papa.parse(allText);
-  //     console.log(csvarray); 
-
-  // }
-//   return csvarray;   
-// }
-
-// function getarray(){
-//   $(document).ready(function() {
-//     $.ajax({
-//       type: "GET",
-//       url: "exercise_data.csv",
-//       dataType: "text",
-//       success: function(data) { return Papa.parse(data);}
-//     });
-//   });
-// }
 
 
  // console.log("map: ", map);
@@ -263,7 +251,6 @@ function makemap(){
 
   }); // end of map object
   console.log("end of make map function");
-  // return map; 
 };
 
 
