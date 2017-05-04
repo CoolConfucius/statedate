@@ -1,17 +1,9 @@
 $(document).ready(init); 
 
-var csvarray; 
 var map; 
 
 function init(){
-  $.ajax({
-    type: "GET",
-    url: "exercise_data.csv",
-    dataType: "text",
-    success: function(data) {
-    processData(data, makemap);
-    }
-  });
+  makemap(); 
 }
 
 // csvarray = getarray(); 
@@ -19,12 +11,10 @@ function init(){
 // console.log("map: ", map);
 
 
-  function processData(allText, next) {
-
+  function processData(allText) {
       console.log(Papa.parse(allText));
       csvarray = Papa.parse(allText);
       console.log(csvarray); 
-      next(csvarray);
   }
   // console.log("csvarray: ", csvarray);
   
@@ -74,9 +64,7 @@ function init(){
   //   return selected;
   // }
 
-function makemap(csvarray){
-  // var csvarray = getarray(); 
-  console.log("getarray: ", csvarray);
+function makemap(){
   console.log("start of make map function");
   map = AmCharts.makeChart( "chartdiv", {
     "type": "map",
@@ -280,15 +268,22 @@ function makemap(csvarray){
 
 
 function preSelectStates(list) {
-  console.log("parsed data: ", csvarray);
-  console.log("list in preSelectStates: ", list);
-  for(var i = 0; i < list.length; i++) {
-    console.log("map in preSelectStates: ", map);
-    var area = map.getObjectById("US-"+list[i]);
-    console.log("area: ", area);
-    area.showAsSelected = true;
-    map.returnInitialColor(area);
-  }
+  console.log("preSelectStates list: ", list);
+  console.log("preSelectStates map: ", map);
+
+  $.ajax({
+    type: "GET",
+    url: "exercise_data.csv",
+    dataType: "text",
+    success: function(data) {
+      processData(data);
+      for(var i = 0; i < list.length; i++) {
+        var area = map.getObjectById('US-'+list[i]);
+        area.showAsSelected = true;
+        map.returnInitialColor(area);
+      }
+    }
+  });
 }
 
   
